@@ -4,7 +4,7 @@ import React from 'react'
 export type MyButtonPropType = {
   className: string
   title: string
-  type: 'submit'
+  type: 'submit' | 'button'
 }
 
 // TODO: オーバーロードができない
