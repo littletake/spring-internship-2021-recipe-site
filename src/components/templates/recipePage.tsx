@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles'
 import {
   Card,
@@ -10,9 +10,8 @@ import {
   ListItem,
   Typography,
 } from '@material-ui/core'
-import { useRouter } from 'next/router'
 import { Header } from '../organisms/header'
-import { Recipe } from 'src/types/recipe'
+import { Recipe } from '../../types/recipe'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -40,8 +39,6 @@ export type RecipePagePropType = {
 }
 export const RecipePage: React.VFC<RecipePagePropType> = ({ recipe }) => {
   const classes = useStyles()
-  const router = useRouter()
-  const [keyword, setKeyword] = React.useState<string>('')
 
   return (
     //   TODO: ここのデザイン
@@ -82,11 +79,9 @@ export const RecipePage: React.VFC<RecipePagePropType> = ({ recipe }) => {
                   <div key={i}>
                     <ListItem alignItems="flex-start" key={i}>
                       {/* TODO: エラー処理を作る */}
-                      <Grid container justify="space-between">
-                        {ing.name}
-                      </Grid>
-                      <Grid container justify="space-between">
-                        {ing.quantity}
+                      <Grid container>
+                        <Grid item>{ing.name}</Grid>
+                        <Grid item>{ing.quantity}</Grid>
                       </Grid>
                     </ListItem>
                     <Divider component="li" />
