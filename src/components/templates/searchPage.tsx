@@ -124,7 +124,7 @@ export const SearchPage: React.VFC<SearchPagePropType> = ({
           color="secondary"
           onClick={() => onClickPrev()}
         >
-          preview
+          前のページ
         </Button>
 
         {/* TODO: 同上 */}
@@ -134,7 +134,7 @@ export const SearchPage: React.VFC<SearchPagePropType> = ({
           color="secondary"
           onClick={() => onClickNext()}
         >
-          next
+          次のページ
         </Button>
       </div>
     </div>
