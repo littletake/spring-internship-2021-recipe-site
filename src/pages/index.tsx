@@ -46,7 +46,7 @@ const TopPage: NextPage = () => {
   }
 
   return (
-    <Layout title="レシピ検索サイト">
+    <Layout title="トップページ">
       <SearchPage
         recipeList={recipeList}
         onClickNext={handleOnClickNext}

@@ -15,18 +15,12 @@ export const SearchBar: React.VFC<SearchBarPropType> = ({
   classNameButton,
 }) => {
   const [searchWord, setSearchWord] = React.useState<string>('')
-  const [hidden, setHidden] = React.useState<boolean>(false)
   const handleSubmit = (e: FormEvent) => {
-    e.preventDefault()
-    router.push(`/search/?keyword=${encodeURIComponent(searchWord)}`)
-  }
-
-  const handleOnChange = (text: string) => {
-    setSearchWord(text)
     if (searchWord != '') {
-      setHidden(true)
+      e.preventDefault()
+      router.push(`/search/?keyword=${encodeURIComponent(searchWord)}`)
     } else {
-      setHidden(false)
+      e.preventDefault()
     }
   }
 
@@ -36,14 +30,9 @@ export const SearchBar: React.VFC<SearchBarPropType> = ({
         className={classNameInput}
         placeholder="Search..."
         value={searchWord}
-        onChange={handleOnChange}
+        onChange={setSearchWord}
       />
-
-      {hidden ? (
-        <MyButton className={classNameButton} title="検索" type="submit" />
-      ) : (
-        <MyButton className={classNameButton} title="検索" type="button" />
-      )}
+      <MyButton className={classNameButton} title="検索" type="submit" />
     </form>
   )
 }

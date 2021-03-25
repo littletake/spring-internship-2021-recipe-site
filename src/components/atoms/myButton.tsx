@@ -15,7 +15,7 @@ export const MyButton: React.VFC<MyButtonPropType> = ({
   type,
 }) => {
   return (
-    <Button className={className} type={type}>
+    <Button className={className} type={type} variant="outlined">
       {title}
     </Button>
   )

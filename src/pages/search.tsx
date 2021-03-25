@@ -14,6 +14,7 @@ import { PagingLinks, Recipe } from 'src/types/recipe'
 const Search: NextPage = () => {
   const router = useRouter()
   const keyword = String(router.query.keyword)
+  const subtitle: string = '検索結果：' + keyword
   const [recipeList, setRecipeList] = React.useState<Recipe[] | null>(null)
   const [pagingLink, setPagingLink] = React.useState<PagingLinks | null>(null)
 
@@ -27,7 +28,6 @@ const Search: NextPage = () => {
       return null
     }
   }
-
   const handleOnClickPrev = async () => {
     if (pagingLink && pagingLink.prev) {
       const response = await getRecipeList(pagingLink.prev)
@@ -52,7 +52,7 @@ const Search: NextPage = () => {
   }
 
   return (
-    <Layout title={keyword}>
+    <Layout title={subtitle}>
       <SearchPage
         recipeList={recipeList}
         onClickPrev={handleOnClickPrev}
