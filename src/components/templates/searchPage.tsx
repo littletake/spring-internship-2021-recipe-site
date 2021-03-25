@@ -78,25 +78,25 @@ export const SearchPage: React.VFC<SearchPagePropType> = ({
         <List className={classes.root}>
           {recipeList.map((recipe) => (
             <div key={recipe.id}>
-              <ListItem alignItems="flex-start" button key={recipe.id}>
-                <ListItemAvatar>
-                  <Avatar
-                    className={classes.large}
-                    src={`${recipe.image_url}`}
-                  />
-                </ListItemAvatar>
+              <Link href={'recipes/' + recipe.id}>
+                <ListItem alignItems="flex-start" button key={recipe.id}>
+                  <ListItemAvatar>
+                    <Avatar
+                      className={classes.large}
+                      src={`${recipe.image_url}`}
+                    />
+                  </ListItemAvatar>
 
-                {/* TODO: ページ遷移の部分、改良の余地あり */}
-                <Link href={'recipes/' + recipe.id}>
+                  {/* TODO: ページ遷移の部分、改良の余地あり */}
                   {/* TODO: 文字のデザイン変更 */}
                   <ListItemText
                     className={classes.content}
                     primary={`${recipe.title}`}
                     secondary={`${recipe.description}`}
                   />
-                </Link>
-              </ListItem>
-              <Divider variant="inset" component="li" />
+                </ListItem>
+              </Link>
+              <Divider />
             </div>
           ))}
         </List>
