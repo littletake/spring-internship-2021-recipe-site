@@ -11,7 +11,6 @@ import {
   ListItemText,
 } from '@material-ui/core'
 import { Recipe } from 'src/types/recipe'
-import { Header } from 'src/components/organisms/header'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -47,10 +46,16 @@ const useStyles = makeStyles((theme: Theme) =>
       margin: theme.spacing(1),
     },
     input: {
-      width: '70%',
+      width: '100%',
+      margin: theme.spacing(1),
     },
     paging: {
-      margin: theme.spacing(5),
+      margin: theme.spacing(1),
+    },
+    pagingButton: {
+      display: 'flex',
+      flexDirection: 'row',
+      justifyContent: 'center',
     },
   }),
 )
@@ -68,26 +73,7 @@ export const SearchPage: React.VFC<SearchPagePropType> = ({
   const classes = useStyles()
 
   return (
-    <div>
-      <Header headerTitle="レシピ検索サイト" />
-
-      {/* 案1 */}
-      {/* <input
-        className={classes.input}
-        type="text"
-        placeholder="search"
-        value={searchWord}
-        onChange={(e) => onChangeSearch(e.target.value)}
-      />
-      <Button
-        className={classes.button}
-        variant="contained"
-        color="primary"
-        onClick={() => onClickSearch()}
-      >
-        検索
-      </Button> */}
-
+    <>
       <div>
         <List className={classes.root}>
           {recipeList.map((recipe) => (
@@ -116,11 +102,11 @@ export const SearchPage: React.VFC<SearchPagePropType> = ({
         </List>
       </div>
 
-      <div>
+      <div className={classes.pagingButton}>
         {/* TODO: 内容が保持されていなければ可視化されないようにする */}
         <Button
           className={classes.paging}
-          variant="contained"
+          variant="outlined"
           color="secondary"
           onClick={() => onClickPrev()}
         >
@@ -130,13 +116,13 @@ export const SearchPage: React.VFC<SearchPagePropType> = ({
         {/* TODO: 同上 */}
         <Button
           className={classes.paging}
-          variant="contained"
+          variant="outlined"
           color="secondary"
           onClick={() => onClickNext()}
         >
           次のページ
         </Button>
       </div>
-    </div>
+    </>
   )
 }

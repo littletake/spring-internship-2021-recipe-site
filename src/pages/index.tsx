@@ -4,6 +4,7 @@ import { getRecipeList } from '../lib/recipe'
 
 import type { PagingLinks, Recipe } from '../types/recipe'
 import { SearchPage } from 'src/components/templates/searchPage'
+import Layout from 'src/components/templates/layout'
 
 const TopPage: NextPage = () => {
   const [recipeList, setRecipeList] = React.useState<Recipe[] | null>(null)
@@ -45,11 +46,13 @@ const TopPage: NextPage = () => {
   }
 
   return (
-    <SearchPage
-      recipeList={recipeList}
-      onClickNext={handleOnClickNext}
-      onClickPrev={handleOnClickPrev}
-    />
+    <Layout title="トップページ">
+      <SearchPage
+        recipeList={recipeList}
+        onClickNext={handleOnClickNext}
+        onClickPrev={handleOnClickPrev}
+      />
+    </Layout>
   )
 }
 

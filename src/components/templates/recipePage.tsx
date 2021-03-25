@@ -43,8 +43,6 @@ export const RecipePage: React.VFC<RecipePagePropType> = ({ recipe }) => {
   return (
     //   TODO: ここのデザイン
     <div>
-      <Header headerTitle="レシピ検索サイト" />
-
       {recipe && (
         <main>
           <Card className={classes.root}>

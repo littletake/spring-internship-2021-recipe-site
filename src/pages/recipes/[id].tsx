@@ -3,6 +3,7 @@ import { getRecipe } from '../../lib/recipe'
 
 import type { Recipe } from '../../types/recipe'
 import { RecipePage } from 'src/components/templates/recipePage'
+import Layout from 'src/components/templates/layout'
 
 type Props = {
   recipe: Recipe
@@ -15,7 +16,11 @@ const EachPage: NextPage<Props> = (props) => {
     return <div>loading...</div>
   }
 
-  return <RecipePage recipe={recipe} />
+  return (
+    <Layout title="詳細ページ">
+      <RecipePage recipe={recipe} />
+    </Layout>
+  )
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {

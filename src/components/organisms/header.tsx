@@ -1,5 +1,6 @@
 import {
   createStyles,
+  Link,
   makeStyles,
   Theme,
   Toolbar,
@@ -17,20 +18,25 @@ export type Header = {
 // }
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    root: {
-      //   display: 'flex',
-      width: '100%',
-      maxWidth: '60ch',
-      backgroundColor: theme.palette.background.paper,
+    header: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      backgroundColor: theme.palette.background.default,
+      margin: theme.spacing(1),
     },
     title: {
-      display: 'none',
-      [theme.breakpoints.up('sm')]: {
-        display: 'block',
-      },
+      display: 'flex',
+      flexDirection: 'column',
+    },
+    word: {
+      display: 'flex',
+    },
+    searchBar: {
+      display: 'flex',
+      margin: theme.spacing(1),
     },
     input: {
-      margin: theme.spacing(1),
+      margin: theme.spacing(2),
     },
     button: {
       margin: theme.spacing(1),
@@ -42,30 +48,23 @@ export const Header: React.VFC<Header> = ({ headerTitle }) => {
   const classes = useStyles()
 
   return (
-    <Toolbar>
-      <Typography className={classes.title} variant="h5" noWrap>
-        {headerTitle}
-      </Typography>
+    <Toolbar className={classes.header}>
+      <div className={classes.title}>
+        <Link href={'/'} color="inherit">
+          <Typography className={classes.word} variant="h5" noWrap>
+            レシピ検索サイト
+          </Typography>
+        </Link>
+        <Typography className={classes.word} variant="body1" noWrap>
+          {headerTitle}
+        </Typography>
+      </div>
 
       <SearchBar
+        classNameForm={classes.searchBar}
         classNameInput={classes.input}
         classNameButton={classes.button}
       />
-
-      {/* TODO: 検索機能をヘッダーに追加 */}
-      {/* <div className={classes.search}>
-        <div className={classes.searchIcon}>
-          <SearchIcon />
-        </div>
-        <InputBase
-          placeholder="Search..."
-          classes={{
-            root: classes.inputRoot,
-            input: classes.inputInput,
-          }}
-          inputProps={{ 'aria-label': 'search' }}
-        />
-      </div> */}
     </Toolbar>
   )
 }
