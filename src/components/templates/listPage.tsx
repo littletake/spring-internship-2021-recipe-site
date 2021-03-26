@@ -1,7 +1,7 @@
-import Link from 'next/link'
-import React from 'react'
-import Avatar from '@material-ui/core/Avatar'
-import { makeStyles, createStyles, Theme } from '@material-ui/core/styles'
+import Link from 'next/link';
+import React from 'react';
+import Avatar from '@material-ui/core/Avatar';
+import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import {
   Button,
   Divider,
@@ -9,8 +9,9 @@ import {
   ListItem,
   ListItemAvatar,
   ListItemText,
-} from '@material-ui/core'
-import { Recipe } from 'src/types/recipe'
+} from '@material-ui/core';
+import { useRouter } from 'next/router';
+import { PagingLinks, Recipe } from 'src/types/recipe';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -58,19 +59,82 @@ const useStyles = makeStyles((theme: Theme) =>
       justifyContent: 'center',
     },
   }),
-)
+);
 
 export type SearchPagePropType = {
-  recipeList: Recipe[]
-  onClickNext: () => void
-  onClickPrev: () => void
-}
-export const SearchPage: React.VFC<SearchPagePropType> = ({
+  recipeList: Recipe[];
+  pagingLink?: PagingLinks;
+};
+export const ListPage: React.VFC<SearchPagePropType> = ({
   recipeList,
-  onClickNext,
-  onClickPrev,
+  pagingLink,
 }) => {
-  const classes = useStyles()
+  const classes = useStyles();
+  const router = useRouter();
+
+  const onClickNext = async () => {
+    if (pagingLink && pagingLink.next) {
+      if (router.query.keyword === undefined) {
+        const params = pagingLink.next.split('=');
+        router.push({
+          pathname: router.pathname,
+          query: { page: params[params.length - 1] },
+        });
+      } else {
+        const params = pagingLink.next.split('=');
+        router.push({
+          pathname: router.pathname,
+          query: {
+            keyword: router.query.keyword,
+            page: params[params.length - 1],
+          },
+        });
+      }
+      window.scrollTo(0, 0);
+    } else {
+      return null;
+    }
+  };
+  const onClickPrev = async () => {
+    if (pagingLink && pagingLink.prev) {
+      if (router.query.keyword === undefined) {
+        if (router.query.page === String(2)) {
+          router.push({
+            pathname: router.pathname,
+            query: { page: '' },
+          });
+        } else {
+          const params = pagingLink.prev.split('=');
+          router.push({
+            pathname: router.pathname,
+            query: { page: params[params.length - 1] },
+          });
+        }
+      } else {
+        if (router.query.page === String(2)) {
+          router.push({
+            pathname: router.pathname,
+            query: {
+              keyword: router.query.keyword,
+              page: '',
+            },
+          });
+        } else {
+          const params = pagingLink.prev.split('=');
+          router.push({
+            pathname: router.pathname,
+            query: {
+              keyword: router.query.keyword,
+              page: params[params.length - 1],
+            },
+          });
+        }
+      }
+      window.scrollTo(0, 0);
+    } else {
+      return null;
+    }
+  };
 
   return (
     <>
@@ -124,5 +188,5 @@ export const SearchPage: React.VFC<SearchPagePropType> = ({
         </Button>
       </div>
     </>
-  )
-}
+  );
+};

@@ -1,7 +1,7 @@
 {
   "scripts": {
     "lint": "eslint  --ext .js,.jsx,.ts,.tsx .",
-    "lint:fix": "eslint --ext .js,.jsx,.ts,.tsx --fix"
+    "lint:fix": "eslint --ext .js,.jsx,.ts,.tsx --fix ."
   },
   "dependencies": {
     "next": "^10.0.9",

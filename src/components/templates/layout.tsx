@@ -1,9 +1,9 @@
-import React from 'react'
-import { Header } from '../organisms/header'
+import React from 'react';
+import { Header } from '../organisms/header';
 
 interface Props {
-  title: string
-  children: React.ReactNode
+  title: string;
+  children: React.ReactNode;
 }
 
 const Layout: React.VFC<Props> = ({ title, children }) => {
@@ -12,7 +12,7 @@ const Layout: React.VFC<Props> = ({ title, children }) => {
       <Header headerTitle={title} />
       <div>{children}</div>
     </>
-  )
-}
+  );
+};
 
-export default Layout
+export default Layout;

@@ -5,13 +5,13 @@ import {
   Theme,
   Toolbar,
   Typography,
-} from '@material-ui/core'
-import React from 'react'
-import { SearchBar } from '../molecules/searchBar'
+} from '@material-ui/core';
+import React from 'react';
+import { SearchBar } from '../molecules/searchBar';
 
 export type Header = {
-  headerTitle: string
-}
+  headerTitle: string;
+};
 
 // export type HeaderPropType = {
 //   searchWord: string
@@ -42,10 +42,10 @@ const useStyles = makeStyles((theme: Theme) =>
       margin: theme.spacing(1),
     },
   }),
-)
+);
 
 export const Header: React.VFC<Header> = ({ headerTitle }) => {
-  const classes = useStyles()
+  const classes = useStyles();
 
   return (
     <Toolbar className={classes.header}>
@@ -66,5 +66,5 @@ export const Header: React.VFC<Header> = ({ headerTitle }) => {
         classNameButton={classes.button}
       />
     </Toolbar>
-  )
-}
+  );
+};

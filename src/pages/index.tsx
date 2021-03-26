@@ -1,59 +1,50 @@
-import React from 'react'
-import type { NextPage } from 'next'
-import { getRecipeList } from '../lib/recipe'
+import React from 'react';
+import type { GetServerSideProps, NextPage } from 'next';
+import { getRecipeList, QueryParameterGetRecipe } from '../lib/recipe';
 
-import type { PagingLinks, Recipe } from '../types/recipe'
-import { SearchPage } from 'src/components/templates/searchPage'
-import Layout from 'src/components/templates/layout'
+import type { PagingLinks, Recipe } from '../types/recipe';
+import { ListPage } from 'src/components/templates/listPage';
+import Layout from 'src/components/templates/layout';
 
-const TopPage: NextPage = () => {
-  const [recipeList, setRecipeList] = React.useState<Recipe[] | null>(null)
-  const [pagingLink, setPagingLink] = React.useState<PagingLinks | null>(null)
+type TopPageProps = {
+  recipeList: Recipe[];
+  pagingLink: PagingLinks;
+};
 
-  const handleOnClickNext = async () => {
-    if (pagingLink && pagingLink.next) {
-      const response = await getRecipeList(pagingLink.next)
-      setRecipeList(response.recipes)
-      setPagingLink(response.links)
-      window.scrollTo(0, 0)
-    } else {
-      return null
-    }
-  }
-
-  const handleOnClickPrev = async () => {
-    if (pagingLink && pagingLink.prev) {
-      const response = await getRecipeList(pagingLink.prev)
-      setRecipeList(response.recipes)
-      setPagingLink(response.links)
-      window.scrollTo(0, 0)
-    } else {
-      return null
-    }
-  }
-
-  // 初期処理
-  const init = async () => {
-    const response = await getRecipeList(null)
-    setRecipeList(response.recipes)
-    setPagingLink(response.links)
-  }
-  React.useEffect(() => {
-    init()
-  }, [])
-  if (recipeList === null) {
-    return <div>loading...</div>
+const TopPage: NextPage<TopPageProps> = ({ recipeList, pagingLink }) => {
+  if (recipeList === null || pagingLink == null) {
+    return <div>loading...</div>;
   }
 
   return (
     <Layout title="トップページ">
-      <SearchPage
-        recipeList={recipeList}
-        onClickNext={handleOnClickNext}
-        onClickPrev={handleOnClickPrev}
-      />
+      <ListPage recipeList={recipeList} pagingLink={pagingLink} />
     </Layout>
-  )
-}
+  );
+};
 
-export default TopPage
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const page = context.query?.page;
+  if (page === undefined || String(page) === '') {
+    const queryParameterGet: QueryParameterGetRecipe = {};
+    const response = await getRecipeList(queryParameterGet);
+    return {
+      props: {
+        recipeList: response.recipes,
+        pagingLink: response.links,
+      },
+    };
+  } else {
+    const queryParameterGet: QueryParameterGetRecipe = {
+      page: Number(page),
+    };
+    const response = await getRecipeList(queryParameterGet);
+    return {
+      props: {
+        recipeList: response.recipes,
+        pagingLink: response.links,
+      },
+    };
+  }
+};
+export default TopPage;

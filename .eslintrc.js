@@ -54,11 +54,11 @@ module.exports = {
       {
         trailingComma: 'all',
         endOfLine: 'lf',
-        semi: false,
+        semi: true,
         singleQuote: true,
         printWidth: 80,
         tabWidth: 2,
       },
     ],
   },
-}
+};
