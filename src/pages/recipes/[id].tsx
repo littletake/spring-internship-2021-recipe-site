@@ -24,10 +24,11 @@ const EachPage: NextPage<Props> = (props) => {
     <>
       <Head>
         <meta property="og:title" content={recipe.title} />
+        <meta property="twitter:card" content={recipe.title} />
+        <meta property="og:url" content={url} />
         {recipe.image_url && (
           <meta property="og:image" content={recipe.image_url} />
         )}
-        <meta property="og:url" content={url} />
       </Head>
       <Layout title="詳細ページ">
         <RecipePage recipe={recipe} />
