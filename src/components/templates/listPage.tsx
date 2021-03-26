@@ -173,6 +173,7 @@ export const ListPage: React.VFC<SearchPagePropType> = ({
           variant="outlined"
           color="secondary"
           onClick={() => onClickPrev()}
+          disabled={pagingLink?.prev === undefined ? true : false}
         >
           前のページ
         </Button>
@@ -183,6 +184,7 @@ export const ListPage: React.VFC<SearchPagePropType> = ({
           variant="outlined"
           color="secondary"
           onClick={() => onClickNext()}
+          disabled={pagingLink?.next === undefined ? true : false}
         >
           次のページ
         </Button>

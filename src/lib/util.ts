@@ -8,7 +8,7 @@ export const fetchApi = async (
   endpoint: string,
   { parameter, body }: { parameter?: any; body?: any },
 ): Promise<Response> => {
-  if (!API_KEY) throw new Error();
+  if (!API_KEY) throw new Error('No API KEY');
 
   const parameterString = parameter
     ? '?' + new URLSearchParams(parameter).toString()

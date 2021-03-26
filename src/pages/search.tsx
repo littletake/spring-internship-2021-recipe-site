@@ -42,6 +42,17 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         keyword: keyword,
       };
       const response = await search(queryParameterSearch);
+      if (response.recipes === undefined) {
+        const noRecipes: Recipe[] = [];
+        const noLinks: PagingLinks = {};
+        return {
+          props: {
+            searchWord: '「' + keyword + '」' + ' は見つかりません',
+            recipeList: noRecipes,
+            pagingLink: noLinks,
+          },
+        };
+      }
       return {
         props: {
           searchWord: keyword,
