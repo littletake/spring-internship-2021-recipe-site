@@ -1,11 +1,11 @@
-import { Button } from '@material-ui/core'
-import React from 'react'
+import { Button } from '@material-ui/core';
+import React from 'react';
 
 export type MyButtonPropType = {
-  className: string
-  title: string
-  type: 'submit' | 'button'
-}
+  className: string;
+  title: string;
+  type: 'submit' | 'button';
+};
 
 // TODO: オーバーロードができない
 // （型がstringではなく特定のものであるのが起因しているみたいだけど何をすればいいのかがわからない）
@@ -18,5 +18,5 @@ export const MyButton: React.VFC<MyButtonPropType> = ({
     <Button className={className} type={type} variant="outlined">
       {title}
     </Button>
-  )
-}
+  );
+};

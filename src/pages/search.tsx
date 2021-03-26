@@ -1,70 +1,80 @@
-import { NextPage } from 'next'
-import { useRouter } from 'next/router'
-import React from 'react'
-import Layout from 'src/components/templates/layout'
-import { SearchPage } from 'src/components/templates/searchPage'
-import { getRecipeList } from 'src/lib/recipe'
-import { search } from 'src/lib/search'
-import { PagingLinks, Recipe } from 'src/types/recipe'
+import { GetServerSideProps, NextPage } from 'next';
+import React from 'react';
+import Layout from 'src/components/templates/layout';
+import { ListPage } from 'src/components/templates/listPage';
+import { QueryParameterSearch, search } from 'src/lib/search';
+import { PagingLinks, Recipe } from 'src/types/recipe';
 
-// type SearchProps = {
-//   response: Response
-// }
+type SearchProps = {
+  searchWord: string;
+  recipeList: Recipe[];
+  pagingLink: PagingLinks;
+};
 
-const Search: NextPage = () => {
-  const router = useRouter()
-  const keyword = String(router.query.keyword)
-  const subtitle: string = '検索結果：' + keyword
-  const [recipeList, setRecipeList] = React.useState<Recipe[] | null>(null)
-  const [pagingLink, setPagingLink] = React.useState<PagingLinks | null>(null)
+const Search: NextPage<SearchProps> = ({
+  searchWord,
+  recipeList,
+  pagingLink,
+}) => {
+  const subtitle: string = '検索結果：' + searchWord;
 
-  const handleOnClickNext = async () => {
-    if (pagingLink && pagingLink.next) {
-      const response = await getRecipeList(pagingLink.next)
-      setRecipeList(response.recipes)
-      setPagingLink(response.links)
-      window.scrollTo(0, 0)
-    } else {
-      return null
-    }
-  }
-  const handleOnClickPrev = async () => {
-    if (pagingLink && pagingLink.prev) {
-      const response = await getRecipeList(pagingLink.prev)
-      setRecipeList(response.recipes)
-      setPagingLink(response.links)
-      window.scrollTo(0, 0)
-    } else {
-      return null
-    }
-  }
-  const init = async () => {
-    const response = await search(keyword)
-    setRecipeList(response.recipes)
-    setPagingLink(response.links)
-  }
-
-  React.useEffect(() => {
-    init()
-  }, [keyword])
-  if (recipeList === null) {
-    return <div>loading...</div>
+  if (recipeList === null || pagingLink === null) {
+    return <div>loading...</div>;
   }
 
   return (
     <Layout title={subtitle}>
-      <SearchPage
-        recipeList={recipeList}
-        onClickPrev={handleOnClickPrev}
-        onClickNext={handleOnClickNext}
-      />
+      <ListPage recipeList={recipeList} pagingLink={pagingLink} />
     </Layout>
-  )
-}
+  );
+};
 
-// export const getServerSideProp: GetServerSideProps = async (context) => {
-//   const word = String(context.params?.keyword)
-//   console.log(word)
-// }
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const keyword = decodeURIComponent(String(context.query?.keyword));
+  if (keyword === 'undefined' || keyword === '') {
+    // 検索する際は必ずクエリに検索ワードがある
+    return {
+      notFound: true,
+    };
+  } else {
+    if (context.query.page === undefined || String(context.query.page) == '') {
+      const queryParameterSearch: QueryParameterSearch = {
+        keyword: keyword,
+      };
+      const response = await search(queryParameterSearch);
+      if (response.recipes === undefined) {
+        const noRecipes: Recipe[] = [];
+        const noLinks: PagingLinks = {};
+        return {
+          props: {
+            searchWord: '「' + keyword + '」' + ' は見つかりません',
+            recipeList: noRecipes,
+            pagingLink: noLinks,
+          },
+        };
+      }
+      return {
+        props: {
+          searchWord: keyword,
+          recipeList: response.recipes,
+          pagingLink: response.links,
+        },
+      };
+    } else {
+      const queryParameterSearch: QueryParameterSearch = {
+        keyword: keyword,
+        page: Number(context.query.page),
+      };
+      const response = await search(queryParameterSearch);
+      return {
+        props: {
+          searchWord: keyword,
+          recipeList: response.recipes,
+          pagingLink: response.links,
+        },
+      };
+    }
+  }
+};
 
-export default Search
+export default Search;

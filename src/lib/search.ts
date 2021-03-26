@@ -1,16 +1,19 @@
-import { Response } from '../types/recipe'
-const URL = 'https://internship-recipe-api.ckpd.co/'
-const apiKey = process.env.NEXT_PUBLIC_API_KEY
+import { Response } from '../types/recipe';
+import { fetchApi } from './util';
 
-export async function search(keyword: string): Promise<Response> {
-  if (!apiKey) throw new Error('no api key')
-  const headers = {
-    'X-Api-Key': apiKey,
-  }
+// request
+export type QueryParameterSearch = {
+  // 検索キーワード。マルチバイト文字列の場合は URL Encode が必用。
+  keyword: string;
 
-  const res = await fetch(URL + 'search?keyword=' + keyword, {
-    headers: headers,
-  })
-  const response: Response = await res.json()
-  return response
-}
+  // ページネーションする場合に指定するページ番号
+  page?: number;
+};
+
+export const search = async (
+  query: QueryParameterSearch,
+): Promise<Response> => {
+  const res = await fetchApi('GET', '/search', { parameter: query });
+  const response: Response = await res.json();
+  return response;
+};

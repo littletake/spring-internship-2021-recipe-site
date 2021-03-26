@@ -1,27 +1,28 @@
-import { Recipe, Response } from '../types/recipe'
+import { Response } from '../types/recipe';
+import { fetchApi } from './util';
 
-const URL = 'https://internship-recipe-api.ckpd.co/'
-const apiKey = process.env.NEXT_PUBLIC_API_KEY
+// request
+export type QueryParameterGetRecipe = {
+  // ページネーションする場合に指定するページ番号。
+  page?: number;
 
-export async function getRecipeList(url: string | null): Promise<Response> {
-  if (!apiKey) throw new Error('no api key')
-  const headers = {
-    'X-Api-Key': apiKey,
-  }
-  const res = await fetch(url ? url : URL + 'recipes', {
-    headers: headers,
-  })
-  const response: Response = await res.json()
-  return response
-}
+  // レシピIDをカンマで区切って複数指定でる。指定できるIDの数の上限は10。
+  // idを指定した場合はページネーションはできないのでidとpageは同時に指定できない。
+  id?: string;
+};
 
-export async function getRecipe(id: number): Promise<Recipe | null> {
-  if (!apiKey) throw new Error('no api key')
-  const res = await fetch(URL + 'recipes/' + id.toString(), {
-    headers: {
-      'X-Api-Key': apiKey,
-    },
-  })
-  const recipe: Recipe = await res.json()
-  return recipe
-}
+export const getRecipeList = async (
+  query: QueryParameterGetRecipe,
+): Promise<Response> => {
+  const res = await fetchApi('GET', '/recipes', { parameter: query });
+  const response: Response = await res.json();
+  return response;
+};
+
+export const getRecipe = async (
+  query: QueryParameterGetRecipe,
+): Promise<Response> => {
+  const res = await fetchApi('GET', '/recipes', { parameter: query });
+  const response: Response = await res.json();
+  return response;
+};

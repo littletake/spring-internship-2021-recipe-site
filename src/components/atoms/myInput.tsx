@@ -1,11 +1,11 @@
-import React from 'react'
+import React from 'react';
 
 export type InputPropType = {
-  className: string
-  placeholder: string
-  value: string
-  onChange: (text: string) => void
-}
+  className: string;
+  placeholder: string;
+  value: string;
+  onChange: (text: string) => void;
+};
 
 export const MyInput: React.VFC<InputPropType> = ({
   className,
@@ -23,5 +23,5 @@ export const MyInput: React.VFC<InputPropType> = ({
         onChange={(e) => onChange(e.target.value)}
       />
     </div>
-  )
-}
+  );
+};

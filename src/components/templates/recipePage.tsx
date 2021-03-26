@@ -1,5 +1,5 @@
-import React from 'react'
-import { makeStyles, createStyles, Theme } from '@material-ui/core/styles'
+import React from 'react';
+import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import {
   Card,
   CardContent,
@@ -9,21 +9,20 @@ import {
   List,
   ListItem,
   Typography,
-} from '@material-ui/core'
-import { Header } from '../organisms/header'
-import { Recipe } from '../../types/recipe'
+} from '@material-ui/core';
+import { Recipe } from '../../types/recipe';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      //   display: 'flex',
-      width: '100%',
-      maxWidth: '60ch',
+      // display: 'flex',
+      margin: theme.spacing(1),
+      // width: '80%',
+      // maxWidth: '60ch',
       backgroundColor: theme.palette.background.paper,
     },
     cover: {
-      width: 150,
-      height: 150,
+      width: '100%',
     },
     content: {
       margin: theme.spacing(1),
@@ -32,33 +31,28 @@ const useStyles = makeStyles((theme: Theme) =>
       display: 'inline',
     },
   }),
-)
+);
 
 export type RecipePagePropType = {
-  recipe: Recipe
-}
+  recipe: Recipe;
+};
 export const RecipePage: React.VFC<RecipePagePropType> = ({ recipe }) => {
-  const classes = useStyles()
+  const classes = useStyles();
 
   return (
     //   TODO: ここのデザイン
     <div>
       {recipe && (
-        <main>
-          <Card className={classes.root}>
+        <main className={classes.root}>
+          <Card>
             {recipe.image_url && (
               <img
-                //   className={classes.cover}
+                className={classes.cover}
                 src={recipe.image_url}
                 alt="レシピ画像"
-                width="100%"
               />
             )}
 
-            {/* <CardMedia
-              className={classes.cover}
-              image={`${recipe.image_url}`}
-            /> */}
             <CardContent className={classes.content}>
               <Typography variant="h5">{recipe.title}</Typography>
               <Typography variant="body1">{recipe.author.user_name}</Typography>
@@ -77,7 +71,7 @@ export const RecipePage: React.VFC<RecipePagePropType> = ({ recipe }) => {
                   <div key={i}>
                     <ListItem alignItems="flex-start" key={i}>
                       {/* TODO: エラー処理を作る */}
-                      <Grid container>
+                      <Grid container justify="space-between">
                         <Grid item>{ing.name}</Grid>
                         <Grid item>{ing.quantity}</Grid>
                       </Grid>
@@ -110,5 +104,5 @@ export const RecipePage: React.VFC<RecipePagePropType> = ({ recipe }) => {
         </main>
       )}
     </div>
-  )
-}
+  );
+};
