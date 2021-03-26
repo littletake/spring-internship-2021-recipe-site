@@ -15,14 +15,14 @@ import { Recipe } from '../../types/recipe';
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      //   display: 'flex',
-      width: '100%',
-      maxWidth: '60ch',
+      // display: 'flex',
+      margin: theme.spacing(1),
+      // width: '80%',
+      // maxWidth: '60ch',
       backgroundColor: theme.palette.background.paper,
     },
     cover: {
-      width: 150,
-      height: 150,
+      width: '100%',
     },
     content: {
       margin: theme.spacing(1),
@@ -43,14 +43,13 @@ export const RecipePage: React.VFC<RecipePagePropType> = ({ recipe }) => {
     //   TODO: ここのデザイン
     <div>
       {recipe && (
-        <main>
-          <Card className={classes.root}>
+        <main className={classes.root}>
+          <Card>
             {recipe.image_url && (
               <img
-                //   className={classes.cover}
+                className={classes.cover}
                 src={recipe.image_url}
                 alt="レシピ画像"
-                width="100%"
               />
             )}
 

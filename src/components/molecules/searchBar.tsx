@@ -1,4 +1,4 @@
-import router from 'next/router';
+import { useRouter } from 'next/router';
 import React, { FormEvent } from 'react';
 import { MyButton } from '../atoms/myButton';
 import { MyInput } from '../atoms/myInput';
@@ -14,6 +14,7 @@ export const SearchBar: React.VFC<SearchBarPropType> = ({
   classNameInput,
   classNameButton,
 }) => {
+  const router = useRouter();
   const [searchWord, setSearchWord] = React.useState<string>('');
   const handleSubmit = (e: FormEvent) => {
     if (searchWord != '') {

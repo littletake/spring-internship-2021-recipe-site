@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme: Theme) =>
     root: {
       //   display: 'flex',
       width: '100%',
-      maxWidth: '60ch',
+      // maxWidth: '60ch',
       backgroundColor: theme.palette.background.paper,
     },
     small: {

@@ -13,9 +13,6 @@ export type Header = {
   headerTitle: string;
 };
 
-// export type HeaderPropType = {
-//   searchWord: string
-// }
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     header: {
@@ -49,16 +46,14 @@ export const Header: React.VFC<Header> = ({ headerTitle }) => {
 
   return (
     <Toolbar className={classes.header}>
-      <div className={classes.title}>
-        <Link href={'/'} color="inherit">
-          <Typography className={classes.word} variant="h5" noWrap>
-            レシピ検索サイト
-          </Typography>
-        </Link>
+      <Link className={classes.title} href={'/'} color="inherit">
+        <Typography className={classes.word} variant="h5" noWrap>
+          レシピ検索サイト
+        </Typography>
         <Typography className={classes.word} variant="body1" noWrap>
           {headerTitle}
         </Typography>
-      </div>
+      </Link>
 
       <SearchBar
         classNameForm={classes.searchBar}
